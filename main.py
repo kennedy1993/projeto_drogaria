@@ -19,9 +19,18 @@ from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 
+import os
+
 # --- CONFIGURAÇÃO DO BANCO DE DADOS (POSTGRESQL) ---
-# Substitua 'usuario' e 'senha' pelas suas credenciais do PostgreSQL
-SQLALCHEMY_DATABASE_URL = "postgresql://postgres:30209713@localhost/drogaria_db"
+# Em produção (nuvem), usará a variável DATABASE_URL. Localmente, usa o Postgres local.
+SQLALCHEMY_DATABASE_URL = os.environ.get(
+    "DATABASE_URL", 
+    "postgresql://postgres:30209713@localhost/drogaria_db"
+)
+
+# Correção automática do prefixo obsoleto (comum em provedores na nuvem) para o SQLAlchemy
+if SQLALCHEMY_DATABASE_URL and SQLALCHEMY_DATABASE_URL.startswith("postgres://"):
+    SQLALCHEMY_DATABASE_URL = SQLALCHEMY_DATABASE_URL.replace("postgres://", "postgresql://", 1)
 
 # Para fins de teste e visualização (se não tiver o Postgres rodando agora), 
 # você pode usar o SQLite temporariamente descomentando a linha abaixo:
@@ -295,7 +304,7 @@ app = FastAPI(
     version="1.1.0"
 )
 
-# Configuração rigorosa do CORS para segurança das requisições
+# Configuração robusta de CORS para suportar desenvolvimento local e deploy na Vercel
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
@@ -304,6 +313,7 @@ app.add_middleware(
         "http://localhost:5174",
         "http://127.0.0.1:5174"
     ],
+    allow_origin_regex="https://.*\\.vercel\\.app",  # Permite qualquer subdomínio da Vercel
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
