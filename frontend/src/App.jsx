@@ -5,7 +5,7 @@ import {
   TrendingUp, Package, Clock, CreditCard, QrCode, BarChart3
 } from 'lucide-react';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8001';
 
 export default function DrogariaApp() {
   const [activeTab, setActiveTab] = useState('pdv');
