@@ -1,0 +1,55 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "main.py",
+      "use": "@vercel/python"
+    },
+    {
+      "src": "frontend/package.json",
+      "use": "@vercel/vite"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/auth/(.*)",
+      "dest": "main.py"
+    },
+    {
+      "src": "/produtos/(.*)",
+      "dest": "main.py"
+    },
+    {
+      "src": "/sngpc/(.*)",
+      "dest": "main.py"
+    },
+    {
+      "src": "/pdv/(.*)",
+      "dest": "main.py"
+    },
+    {
+      "src": "/financeiro/(.*)",
+      "dest": "main.py"
+    },
+    {
+      "src": "/clientes/(.*)",
+      "dest": "main.py"
+    },
+    {
+      "src": "/crediario/(.*)",
+      "dest": "main.py"
+    },
+    {
+      "src": "/docs(.*)",
+      "dest": "main.py"
+    },
+    {
+      "src": "/openapi.json",
+      "dest": "main.py"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "frontend/dist/$1"
+    }
+  ]
+}
