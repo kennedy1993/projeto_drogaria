@@ -118,7 +118,9 @@ export default function DrogariaApp() {
   useEffect(() => {
     if (currentUser) {
       fetchProdutos();
-      fetchFinanceStats();
+      if (currentUser.role === 'administrador') {
+        fetchFinanceStats();
+      }
       fetchClientes();
       fetchCrediario();
     }
@@ -378,7 +380,9 @@ export default function DrogariaApp() {
         setIsSuccessModalOpen(true); // Abre o simulador visual de impressora fiscal
         setSelectedClienteId(''); // Limpa seleção
         fetchProdutos();
-        fetchFinanceStats(); // Sincroniza faturamento em tempo real
+        if (currentUser.role === 'administrador') {
+          fetchFinanceStats(); // Sincroniza faturamento em tempo real
+        }
         fetchClientes(); // Sincroniza saldos do crediário
         fetchCrediario(); // Sincroniza lançamentos
       } else {
