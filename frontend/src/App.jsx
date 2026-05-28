@@ -529,10 +529,12 @@ export default function DrogariaApp() {
           if (discountInput) discountInput.focus();
         }, 150);
       } else if (e.key === 'F5') {
-        e.preventDefault();
-        if (cart.length > 0) {
-          handleOpenCheckout();
-          setPaymentMethod('Dinheiro');
+        if (!e.shiftKey && !e.ctrlKey && !e.metaKey) {
+          e.preventDefault();
+          if (cart.length > 0) {
+            handleOpenCheckout();
+            setPaymentMethod('Dinheiro');
+          }
         }
       } else if (e.key === 'Escape') {
         e.preventDefault();
